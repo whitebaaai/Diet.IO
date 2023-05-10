@@ -71,7 +71,7 @@ def json_handle():
 def home_page():
     st.title("DIET.IO")  # 把标题给改了
     
-    st.write("Towards the Symbiotic Well-beings of Humans and the Environment")
+    st.write("Towards the Symbiosis of Human-Environmental Well-beings")
 
     cover_image = Image.open("./cover.png")
     st.image(cover_image, caption=" ", use_column_width=True)
@@ -85,7 +85,7 @@ def home_page():
 
 def entry_page():
     st.title("DIET.IO")  
-    st.subheader("Type in your info for our predictive calculations")
+    st.subheader("Basic Info for Predictive Calculations")
 
     col1, col2 = st.columns(2)
     # Add text input boxes to the first column
@@ -100,7 +100,7 @@ def entry_page():
         
     # Add text input boxes to the second Section
 
-    st.subheader("Enter your Normal Eating Time ")
+    st.subheader("What Are Normal Eating Times For You?")
     c1, c2 = st.columns(2)
     with c1:
 
@@ -139,18 +139,18 @@ def entry_page():
             except ValueError:
                 st.write("Please enter a valid integer for your weight.")
         if age and height and weight:
-            st.write("Personal Information gather complete")
+            st.write("We have received the following as your ID inputs.")
 
         if place:
             st.write(f"Place of Residency: {place}, .")
         
         if age and height and weight and place \
             and breakfast_time and lunch_time and dinner_time:
-            st.write("You normally have your daily meal at the following time:")
-            st.write("BREAKFAST Time: ", breakfast_time.strftime("%I:%M %p"))
-            st.write("LUNCH Time: ", lunch_time.strftime("%I:%M %p"))
-            st.write("DINNER Time: ", dinner_time.strftime("%I:%M %p"))
-            st.write("Thanks for your time. Now all the information has been fully gathered. ")
+            st.write("Your Normal Meal Time:")
+            st.write("Breakfast: ", breakfast_time.strftime("%I:%M %p"))
+            st.write("Lunch: ", lunch_time.strftime("%I:%M %p"))
+            st.write("Dinner: ", dinner_time.strftime("%I:%M %p"))
+            st.write("Connect to your existing health data to enrich the data spectrum for accurate predictions.")
 
             personal_info["name"] = name
             personal_info["age"] = age
@@ -162,9 +162,9 @@ def entry_page():
             personal_info["dinner_time"] = dinner_time
 
             st.title("Now, Take a Selfie! ")
-            st.write("Please follow the instructions, and upload your image. Thanks for using our website.")
+            st.write("")
 
-            uploaded_file = st.file_uploader("Upload an image in the format of ['jpg', 'jpeg', 'png']", 
+            uploaded_file = st.file_uploader("Upload an square image in ['jpg', 'jpeg', 'png']", 
                                             type=["jpg", "jpeg", "png"])
             if uploaded_file is not None:
                 st.write("For better post-processing, the image you uploaded will be resize to a square size.")
@@ -175,7 +175,7 @@ def entry_page():
                 st.session_state.selfie_img = selfie_image
                 st.session_state.personal_info = personal_info
 
-                if st.button("Go to your Health Monitor"):
+                if st.button("Next"):
                     # Set a flag to indicate the user wants to go to the contact page
                     st.session_state.page = "monitor"
                     # st.experimental_rerun()
@@ -183,21 +183,21 @@ def entry_page():
     return
 
 def health_monitor(personal_info, selfie_image):
-    st.title("Health Monitor of DIET.IO")
-    st.write("Welcome to your personal health monitor")
+    st.title("DIET.IO")
+    st.subheader("The system generates a future simulation based on in-vivo glucose data and user-logged food in-takes.")
     # selfie_image = cv2.resize(selfie_image, (300, 350))
     # selfie_4ch, remove_bg = app_engine.remove_background(test_image)
     
     # selfie_image = Image.open("./steaks_remove_bg.png")
-    st.write("Thanks for you information, now we will start to process your selfie image...")
-    st.write("This is your selfie image: ")
+    st.write("This Model has been fine-tuned from images of Muqing_bai for demo purpose only.")
+    st.subheader("Step 1: Loading input image: ")
     st.image(selfie_image, use_column_width=True)
     col1, col2 = st.columns(2)
     
 
     with col1:
 
-        st.write("First, we will be extracting a outline of your face: ")
+        st.subheader("Step 2, Establishing a framework of facial gestures: ")
         progress_bar = st.progress(0)
         for i in range(20):
             # Update the progress bar with each iteration
@@ -210,7 +210,7 @@ def health_monitor(personal_info, selfie_image):
     with col2:
         
         
-        st.write("\n Second, we will be extracting mask to locate your central face area: ")
+        st.subheader("\n Step 3:, Detecting facial contours with a mask: ")
         with st.spinner('Running Mask Extraction function...'):
             progress_bar = st.progress(0)
             # mask = mask_image(selfie_image)
@@ -219,10 +219,10 @@ def health_monitor(personal_info, selfie_image):
             progress_bar.progress(100)
         st.image(mask, use_column_width=True)
     
-    st.markdown(" ** Now we will use Stable Diffusion Pipeline to create figure of you. **")
-    prompt = "portrait + style A photo of a " + personal_info["name"] +" man, black hair, healthy-looking face, bright skins"
+    st.markdown(" ** The system uses Stable Diffusion Pipeline to predict facial appearances based on dietary and glucose patterns **")
+    prompt = "portrait + style A photo of a " + personal_info["name"] + " Oiliness_of_Skin=[_], Puffiness of eyebags=[_], Puffiness of eyebags=[_]"
     st.write("Example: "  + prompt)
-    prompt_input = st.text_input("Write a brief description of yourself: ")
+    prompt_input = st.text_input("System will fill in the blanks with descriptive terms based on in-vivo glucose data forr Oiliness_of_Skin, Puffiness of eyebags, Puffiness of eyebags")
 
     if prompt_input: 
         st.markdown('''
@@ -238,7 +238,7 @@ def health_monitor(personal_info, selfie_image):
                 \n
                 ''')
         
-        st.markdown("**Now let the Stable Diffusion pipeline work: **")
+        st.subheader("** Generating a starting simulation based on the past 7 days of dietary patterns: **")
         progress_bar = st.progress(0)
 
         for i in range(50):
@@ -260,7 +260,7 @@ def health_monitor(personal_info, selfie_image):
             st.stop()
 
 def glu_days():
-    st.header("Now we will start to monitor your glucose level at the backend")
+    st.header("Here is a list of in-vivo glucose data and user-logged food intakes from the past 7-days")
     begin_date = pd.Timestamp('2023-03-03')
         
     temp = json_handle()
@@ -278,18 +278,18 @@ def glu_days():
                 st.write(row["glu"])
             time.sleep(0.2)
     
-    st.subheader("We collected the first 7 days of the user data, and now we can\
-                  use further new data to render this user's predicted figure.")
-    st.subheader("Wanna See our Prediction? click the button below.")
+    st.subheader("Predictions are created based on\
+                  the user's last food-intake and glucose changes.")
+    st.subheader("Predictions will pop up 30 mins before user's preset meal time as a consequential reminder")
 
-    if st.button("See our predictions"):
+    if st.button("Generate Predictions"):
             # Set a flag to indicate the user wants to go to the contact page
         st.session_state.page = "prediction"
         # st.experimental_rerun()
         st.stop()
     
 def predictions_page():
-    st.title("First let's see you glucose flucatation of the past 7 days.")
+    st.title("The glucose oscillation pattern from the past 7 days.")
     
     df2 = pd.read_excel('230303-17_MQ_CGM.xlsx', skiprows=1,
                     sheet_name='Scanned_inputs')  # 读取scanned input sheet
@@ -324,17 +324,16 @@ def predictions_page():
     st.write("You need to control your diet !!!")
     time.sleep(4.0)
 
-    st.subheader("Want to see what will happen if you keeping this diet: ")
+    st.subheader("The prediction is based on the hypothesis of the same dietary patterns being kept for at least 6 more months.")
 
-    st.write("The system just noticed your last meal was a meal of steak: ")
-    st.write("Does this looks familiar? ")
+    st.write("The simulation predicts the user's appearance based on the least health and sustainable ingredients from your last meal: ")
     time.sleep(0.3)
 
     
     st.image("./steaks.png")
 
 
-    st.subheader("Not so dramatic? What about we place you in a different background? ")
+    st.subheader("The simulation also predicts the appearance of the user's place of residency under the environmental impact of collectively committed dietary patterns.")
     time.sleep(4.0)
     
     progress_bar = st.progress(0)
@@ -345,7 +344,13 @@ def predictions_page():
     st.image("./final.png")
 
 # def test():
-#     predictions_page()
+#     # predictions_page()
+#     if "personal_info" not in st.session_state:
+#         st.session_state.personal_info = {"name": "muqing"}
+#     if "selfie_img" not in st.session_state:
+#         st.session_state.selfie_img = Image.open("./selfie_input.jpg")
+
+#     health_monitor(st.session_state.personal_info, st.session_state.selfie_img)
 
 
 def main():
